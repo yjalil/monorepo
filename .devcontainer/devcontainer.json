@@ -1,0 +1,87 @@
+{
+  "name": "Python Project",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  
+  "mounts": [
+    "type=bind,source=/media/yjalil/DEVSSD/.cache/vscode-extensions,target=/home/vscode/.vscode-server/extensions",
+    "type=bind,source=/media/yjalil/DEVSSD/.cache/uv,target=/home/vscode/.cache/uv",
+    "type=bind,source=/media/yjalil/DEVSSD/.cache/semgrep,target=/home/vscode/.cache/semgrep",
+    "type=bind,source=/media/yjalil/DEVSSD/.cache/.zsh_history,target=/home/vscode/.zsh_history",
+    "type=bind,source=/media/yjalil/DEVSSD/.cache/mise,target=/home/vscode/.local/share/mise",
+    "type=bind,source=/media/yjalil/DEVSSD/.keys/.ssh,target=/home/vscode/.ssh",
+    "type=bind,source=/media/yjalil/DEVSSD/.keys/.config,target=/home/vscode/.config"
+  ],
+  
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python@latest",
+        "ms-python.vscode-pylance@latest",
+        "charliermarsh.ruff@latest",
+        "tamasfe.even-better-toml@latest",
+        "hverlin.mise-vscode@latest"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/workspace/monorepo/.venv/bin/python",
+        "python.analysis.typeCheckingMode": "strict",
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        
+        "github.copilot.enable": {
+          "*": true
+        },
+        "remote.autoForwardPorts": false
+      }
+    }
+  },
+  
+  "forwardPorts": [8000, 3000, 9000, 6379, 5432, 5555, 3333, 9001, 8888],
+  "portsAttributes": {
+    "8000": {
+      "label": "Backend",
+      "onAutoForward": "ignore"
+    },
+    "3000": {
+      "label": "Frontend",
+      "onAutoForward": "ignore"
+    },
+    "9000": {
+      "label": "Docs",
+      "onAutoForward": "ignore"
+    },
+    "6379":{
+      "label": "Redis",
+      "onAutoForward": "ignore"
+    },
+    "5432":{
+      "label": "Postgres",
+      "onAutoForward": "ignore"
+    },
+    "5555":{
+      "label": "Celery",
+      "onAutoForward": "ignore"
+    },
+    "3333":{
+      "label": "Dagster",
+      "onAutoForward": "ignore"
+    },
+    "9001":{
+      "label": "Minio",
+      "onAutoForward": "ignore"
+    },
+    "8888":{
+      "label": "Html",
+      "onAutoForward": "ignore"
+    }
+
+  },
+  
+  "initializeCommand": "echo '🚀 Starting devcontainer...'",
+  "onCreateCommand": "echo '📦 Container created'",
+  "updateContentCommand": "echo '🔄 Updating content...'",
+  "postStartCommand": "echo '✅ Container ready!'",
+  
+  "remoteUser": "vscode"
+}

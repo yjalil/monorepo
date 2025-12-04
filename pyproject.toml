@@ -1,0 +1,41 @@
+[project]
+name = "monorepo"
+dynamic = ["version"]
+authors = [
+  {name = "yjalil", email = "jalil.yahy@gmail.com"}
+    ] 
+description = "Repo dedicated to general practice and docs"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "click",
+    "python-decouple",
+    "pystache",
+    "pydantic-settings",
+    "pytest",
+    "mypy",
+    "ruff",
+    "checkov",
+    "commitizen",
+    "pre-commit",
+]
+
+    
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort (import sorting)
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+]
+ignore = []
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+force-wrap-aliases = true
+known-first-party = ["monorepo"]
