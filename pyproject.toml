@@ -1,6 +1,6 @@
 [project]
 name = "monorepo"
-dynamic = ["version"]
+version = "0.1.0"
 authors = [
   {name = "yjalil", email = "jalil.yahy@gmail.com"}
     ] 
@@ -20,6 +20,12 @@ dependencies = [
     "pre-commit",
 ]
 
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.0"
+version_files = ["pyproject.toml:version"]
+tag_format = "v$version"
+update_changelog_on_bump = true
     
 [tool.ruff]
 line-length = 88
@@ -39,3 +45,11 @@ ignore = []
 combine-as-imports = true
 force-wrap-aliases = true
 known-first-party = ["monorepo"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+addocs = "scripts.cli:cli"
+
