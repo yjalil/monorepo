@@ -12,17 +12,18 @@
     "type=bind,source=/media/yjalil/DEVSSD/.cache/.zsh_history,target=/home/vscode/.zsh_history",
     "type=bind,source=/media/yjalil/DEVSSD/.cache/mise,target=/home/vscode/.local/share/mise",
     "type=bind,source=/media/yjalil/DEVSSD/.keys/.ssh,target=/home/vscode/.ssh",
-    "type=bind,source=/media/yjalil/DEVSSD/.keys/.config,target=/home/vscode/.config"
+    "type=bind,source=/media/yjalil/DEVSSD/.keys/.config,target=/home/vscode/.config",
+    "type=bind,source=/media/yjalil/DEVSSD/.keys/.gitconfig,target=/home/vscode/.gitconfig"
   ],
   
   "customizations": {
     "vscode": {
       "extensions": [
-        "ms-python.python@latest",
-        "ms-python.vscode-pylance@latest",
-        "charliermarsh.ruff@latest",
-        "tamasfe.even-better-toml@latest",
-        "hverlin.mise-vscode@latest"
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "tamasfe.even-better-toml",
+        "hverlin.mise-vscode"
       ],
       "settings": {
         "python.defaultInterpreterPath": "/workspace/monorepo/.venv/bin/python",

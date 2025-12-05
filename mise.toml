@@ -32,3 +32,4 @@ description = "Install dependencies"
 alias = "i"
 run = "uv sync"
 
+

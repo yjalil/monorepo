@@ -9,3 +9,12 @@ wheels/
 # Virtual environments
 .venv
 .env
+
+# builds
+*.egg-info
+build/
+dist/
+wheels/
+
+#external 
+oss/

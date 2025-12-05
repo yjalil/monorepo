@@ -18,6 +18,9 @@ source $ZSH/oh-my-zsh.sh
 unalias rm 2>/dev/null || true
 unalias lt 2>/dev/null || true
 
+# aliases
+alias em='printf "%s\n" ✅ ❌ ⚠️ 🔍 📊 🏗️ 🔧 📝 🚀 🧪 ℹ️ 💡 🎯 🔥 ⚡ | fzf --no-sort --layout=reverse | xclip -selection clipboard'
+
 # PATH
 export PATH="./bin:./node_modules/.bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
@@ -29,8 +32,6 @@ export LANG=C.UTF-8
 # Container greeting
 echo "🐳 devcontainer ready"
 echo "📁 workspace: /workspace"
-
-
 
 # History
 HISTFILE=/home/vscode/.zsh_history
