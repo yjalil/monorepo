@@ -1,0 +1,72 @@
+/* Custom styles for ADR documentation */
+
+:root {
+  --md-primary-fg-color: #673ab7;
+  --md-primary-fg-color--light: #9575cd;
+  --md-primary-fg-color--dark: #512da8;
+  --md-accent-fg-color: #ffc107;
+}
+
+/* Enhanced code blocks */
+.highlight {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Improved admonitions */
+.admonition {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Home page enhancements */
+.md-typeset h1 {
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card-like sections */
+.md-typeset h2 {
+  border-left: 4px solid var(--md-accent-fg-color);
+  padding-left: 16px;
+  margin-top: 2em;
+}
+
+/* Enhanced tables */
+.md-typeset table:not([class]) {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Smooth hover effects */
+.md-nav__link:hover {
+  background-color: rgba(103, 58, 183, 0.1);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+/* Code inline styling */
+.md-typeset code {
+  background-color: rgba(103, 58, 183, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Footer styling */
+.md-footer {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Search box enhancement */
+.md-search__input {
+  border-radius: 20px;
+}
+
+/* Navigation tabs */
+.md-tabs {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}

@@ -20,7 +20,10 @@ dependencies = [
     "pre-commit",
     "loguru",
     "python-slugify",
-    "click-prompt"
+    "click-prompt",
+    "semgrep",
+    "mkdocs",
+    "mkdocs-material"
 ]
 
 [tool.commitizen]
@@ -36,18 +39,43 @@ line-length = 88
 [tool.ruff.lint]
 select = [
     "E",   # pycodestyle errors
-    "W",   # pycodestyle warnings
+    "W",   # pycodestyle warnings  
     "F",   # pyflakes
-    "I",   # isort (import sorting)
+    "I",   # isort
     "N",   # pep8-naming
     "UP",  # pyupgrade
+    "D",   # pydocstyle (Google docstrings)
+    "C90", # mccabe complexity
+    "B",   # flake8-bugbear
+    "A",   # flake8-builtins
+    "COM", # flake8-commas
+    "C4",  # flake8-comprehensions
+    "DTZ", # flake8-datetimez
+    "T10", # flake8-debugger
+    "PIE", # flake8-pie
+    "PT",  # flake8-pytest-style
+    "Q",   # flake8-quotes
+    "RSE", # flake8-raise
+    "RET", # flake8-return
+    "SIM", # flake8-simplify
+    "TCH", # flake8-type-checking
+    "ARG", # flake8-unused-arguments
+    "PTH", # flake8-use-pathlib
+    "PL",  # pylint
+    "TRY", # tryceratops
+    "RUF", # ruff-specific
+    "G",   # flake8-logging-format (no f-strings in logging) <<< ONLY NEW LINE
 ]
 ignore = []
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
 
 [tool.ruff.lint.isort]
 combine-as-imports = true
 force-wrap-aliases = true
 known-first-party = ["monorepo"]
+
 
 [build-system]
 requires = ["hatchling"]
@@ -60,4 +88,4 @@ packages = [
 ]
 [project.scripts]
 repoctl = "repoctl.cli:cli"
-
+sem = "repoctl.enforce_adrs:cli"

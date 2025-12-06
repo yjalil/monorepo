@@ -1,0 +1,38 @@
+{
+  "folders": [
+    {
+      "name": "📦 Monorepo Root",
+      "path": "."
+    },
+    {
+      "name": "🔧 Shared",
+      "path": "shared"
+    },
+    {
+      "name": "🛠️ Repoctl",
+      "path": "repoctl"
+    },
+    {
+      "name": "📝 Docs",
+      "path": "docs"
+    },
+    {
+      "name": "📄 Templates",
+      "path": "templates"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/*.pyc": true,
+      "**/.ruff_cache": true,
+      "**/.pytest_cache": true,
+      "**/node_modules": true,
+      "**/.venv": true,
+      "**/venv": true,
+      "oss": true,
+      "backends": true,
+      "frontends": true
+    }
+  }
+}

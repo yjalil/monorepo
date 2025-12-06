@@ -6,14 +6,14 @@
   },
   
   "mounts": [
-    "type=bind,source=/media/yjalil/DEVSSD/.cache/vscode-extensions,target=/home/vscode/.vscode-server/extensions",
-    "type=bind,source=/media/yjalil/DEVSSD/.cache/uv,target=/home/vscode/.cache/uv",
-    "type=bind,source=/media/yjalil/DEVSSD/.cache/semgrep,target=/home/vscode/.cache/semgrep",
-    "type=bind,source=/media/yjalil/DEVSSD/.cache/.zsh_history,target=/home/vscode/.zsh_history",
-    "type=bind,source=/media/yjalil/DEVSSD/.cache/mise,target=/home/vscode/.local/share/mise",
-    "type=bind,source=/media/yjalil/DEVSSD/.keys/.ssh,target=/home/vscode/.ssh",
-    "type=bind,source=/media/yjalil/DEVSSD/.keys/.config,target=/home/vscode/.config",
-    "type=bind,source=/media/yjalil/DEVSSD/.keys/.gitconfig,target=/home/vscode/.gitconfig"
+    "type=bind,source=${localWorkspaceFolder}/../.cache/vscode-extensions,target=/home/vscode/.vscode-server/extensions",
+    "type=bind,source=${localWorkspaceFolder}/../.cache/uv,target=/home/vscode/.cache/uv",
+    "type=bind,source=${localWorkspaceFolder}/../.cache/semgrep,target=/home/vscode/.cache/semgrep",
+    "type=bind,source=${localWorkspaceFolder}/../.cache/.zsh_history,target=/home/vscode/.zsh_history",
+    "type=bind,source=${localWorkspaceFolder}/../.cache/mise,target=/home/vscode/.local/share/mise",
+    "type=bind,source=${localWorkspaceFolder}/../.keys/.ssh,target=/home/vscode/.ssh",
+    "type=bind,source=${localWorkspaceFolder}/../.keys/.config,target=/home/vscode/.config",
+    "type=bind,source=${localWorkspaceFolder}/../.keys/.gitconfig,target=/home/vscode/.gitconfig"
   ],
   
   "customizations": {

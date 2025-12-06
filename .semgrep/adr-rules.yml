@@ -1,0 +1,143 @@
+rules:
+- id: py-import-001
+  patterns:
+  - pattern: from $MODULE import $ITEM
+  - pattern-not: from typing import $ITEM
+  - pattern-not: from collections.abc import $ITEM
+  message: 'Import from top-level module instead of individual component.
+
+    See: docs/adr/001-import-from-top-level-modules.md
+
+    '
+  severity: ERROR
+  languages:
+  - python
+- id: py-doc-001
+  patterns:
+  - pattern: "def $FUNC($PARAM):\n    \"\"\"$DOCSTRING\"\"\"\n    ...\n"
+  - metavariable-regex:
+      metavariable: $DOCSTRING
+      regex: ^(?!.*Args:).*$
+  paths:
+    exclude:
+    - '**/__init__.py'
+    - '**/test_*.py'
+    - '**/*_test.py'
+  message: 'Function has parameters but docstring missing ''Args:'' section.
+
+    See: docs/adr/002-docstring-required-sections.md#args-section
+
+    '
+  severity: WARNING
+  languages:
+  - python
+- id: py-doc-002
+  patterns:
+  - pattern: "def $FUNC(...):\n    \"\"\"$DOCSTRING\"\"\"\n    ...\n    return $VALUE\n"
+  - metavariable-regex:
+      metavariable: $DOCSTRING
+      regex: ^(?!.*Returns:).*$
+  paths:
+    exclude:
+    - '**/__init__.py'
+    - '**/test_*.py'
+    - '**/*_test.py'
+  message: 'Function returns a value but docstring missing ''Returns:'' section.
+
+    See: docs/adr/002-docstring-required-sections.md#returns-section
+
+    '
+  severity: WARNING
+  languages:
+  - python
+- id: py-doc-003
+  patterns:
+  - pattern: "def $FUNC(...):\n    \"\"\"$DOCSTRING\"\"\"\n    ...\n    raise $EXCEPTION\n"
+  - metavariable-regex:
+      metavariable: $DOCSTRING
+      regex: ^(?!.*Raises:).*$
+  paths:
+    exclude:
+    - '**/__init__.py'
+    - '**/test_*.py'
+    - '**/*_test.py'
+  message: 'Function raises exceptions but docstring missing ''Raises:'' section.
+
+    See: docs/adr/002-docstring-required-sections.md#raises-section
+
+    '
+  severity: WARNING
+  languages:
+  - python
+- id: py-default-001
+  patterns:
+  - pattern: "def $FUNC(..., $ARG=$DEFAULT, ...):\n    ...\n"
+  - metavariable-pattern:
+      metavariable: $DEFAULT
+      pattern-either:
+      - pattern: '[]'
+      - pattern: '{}'
+      - pattern: set()
+  message: 'Mutable default argument detected. Use None and construct inside function.
+
+    See: docs/adr/004-no-mutable-default-arguments.md
+
+    '
+  severity: ERROR
+  languages:
+  - python
+- id: py-default-002
+  patterns:
+  - pattern: "def $FUNC(..., $ARG=$DEFAULT(...), ...):\n    ...\n"
+  - metavariable-regex:
+      metavariable: $DEFAULT
+      regex: ^(?!dataclass$).*
+  message: 'Function call as default argument is evaluated once at definition time.
+
+    See: docs/adr/004-no-mutable-default-arguments.md#function-calls
+
+    '
+  severity: WARNING
+  languages:
+  - python
+- id: py-data-001
+  patterns:
+  - pattern: "@dataclass\nclass $CLASS:\n    ...\n"
+  - pattern-not: "@dataclass(frozen=True)\nclass $CLASS:\n    ...\n"
+  - pattern-not: "@dataclass(..., frozen=True, ...)\nclass $CLASS:\n    ...\n"
+  message: 'Dataclass must be frozen. Use @dataclass(frozen=True).
+
+    See: docs/adr/005-dataclasses-frozen-and-pure.md#frozen-by-default
+
+    '
+  severity: ERROR
+  languages:
+  - python
+- id: py-data-002
+  patterns:
+  - pattern-inside: "@dataclass(...)\nclass $CLASS:\n    ...\n"
+  - pattern: "def $METHOD(self, ...):\n    ...\n"
+  - pattern-not: "@property\ndef $METHOD(self):\n    ...\n"
+  - metavariable-regex:
+      metavariable: $METHOD
+      regex: ^(?!__).*
+  message: 'Dataclass methods must be @property decorators. Move logic to services/utils.
+
+    See: docs/adr/005-dataclasses-frozen-and-pure.md#properties-only
+
+    '
+  severity: ERROR
+  languages:
+  - python
+- id: py-data-003
+  patterns:
+  - pattern-inside: "@dataclass(...)\nclass $CLASS:\n    ...\n"
+  - pattern: dt.now()
+  message: 'No datetime.now() in dataclasses. Pass timestamps as constructor arguments.
+
+    See: docs/adr/005-dataclasses-frozen-and-pure.md#no-side-effects
+
+    '
+  severity: ERROR
+  languages:
+  - python
