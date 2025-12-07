@@ -206,7 +206,6 @@ class Report:
 ```
 
 ## References
-- /mnt/project/dataclasses-utils.md
 - [Python dataclasses documentation](https://docs.python.org/3/library/dataclasses.html)
 
 ## Examples: Handling Mutability Needs

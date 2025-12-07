@@ -76,4 +76,3 @@ rules:
 
 ## References
 - Google Python Style Guide: Imports
-- /mnt/project/philosophy-updates.md#import-patterns

@@ -1,6 +1,7 @@
 site_name: Architecture Decision Records
 site_description: ADR documentation for the monorepo project
 site_author: Monorepo Team
+site_dir: builds/docs
 
 docs_dir: docs
 
@@ -64,29 +65,36 @@ markdown_extensions:
       permalink: true
 
 nav:
-  - "🏠 Home": index.md
-  - "📚 Architecture Decision Records":
-    - "🐍 Python Development":
-      - "📦 ADR-001: Import from Top-Level Modules": adr/001-import-from-top-level-modules.md
-      - "📝 ADR-002: Docstring Required Sections": adr/002-docstring-required-sections.md
-      - "🌐 ADR-003: Global Variables and Module State": adr/003-global-variables-and-module-state.md
-      - "🚫 ADR-004: No Mutable Default Arguments": adr/004-no-mutable-default-arguments.md
-      - "🔒 ADR-005: Dataclasses Frozen and Pure": adr/005-dataclasses-frozen-and-pure.md
-      - "⚙️ ADR-006: Prefer Operator Module": adr/006-prefer-operator-module.md
-      - "📊 ADR-007: Use Standard Data Formats": adr/007-use-standard-data-formats.md
-    - "🌐 API Design":
-      - "🗓️ ADR-008: API Deprecation and Sunset": adr/008-api-deprecation-and-sunset.md
-      - "🎨 ADR-009: Follow API First Principle": adr/009-follow-api-first-principle.md
-      - "📋 ADR-010: HTTP Header Standards": adr/010-http-header-standards.md
-      - "🔧 ADR-011: HTTP Methods Usage": adr/011-http-methods-usage.md
-      - "🔢 ADR-012: HTTP Status Codes": adr/012-http-status-codes.md
-      - "🔗 ADR-013: Hypermedia and Links": adr/013-hypermedia-and-links.md
-      - "📄 ADR-014: JSON Payload Standards": adr/014-json-payload-standards.md
-      - "ℹ️ ADR-015: API Meta Information": adr/015-api-meta-information.md
-      - "📖 ADR-016: Pagination": adr/016-pagination.md
-      - "⚡ ADR-017: API Performance Optimization": adr/017-api-performance-optimization.md
-      - "🔐 ADR-018: API Security and Authorization": adr/018-api-security-and-authorization.md
-      - "🛣️ ADR-019: URL Design and Resource Naming": adr/019-url-design-and-resource-naming.md
+  - "Home": index.md
+  - "Architecture Decision Records":
+    - "Python Development":
+      - "ADR-001: Import from Top-Level Modules": adr/001-import-from-top-level-modules.md
+      - "ADR-002: Docstring Required Sections": adr/002-docstring-required-sections.md
+      - "ADR-003: Global Variables and Module State": adr/003-global-variables-and-module-state.md
+      - "ADR-004: No Mutable Default Arguments": adr/004-no-mutable-default-arguments.md
+      - "ADR-005: Dataclasses Frozen and Pure": adr/005-dataclasses-frozen-and-pure.md
+      - "ADR-006: Prefer Operator Module": adr/006-prefer-operator-module.md
+      - "ADR-007: Use Standard Data Formats": adr/007-use-standard-data-formats.md
+    - "API Design":
+      - "ADR-008: API Deprecation and Sunset": adr/008-api-deprecation-and-sunset.md
+      - "ADR-009: Follow API First Principle": adr/009-follow-api-first-principle.md
+      - "ADR-010: HTTP Header Standards": adr/010-http-header-standards.md
+      - "ADR-011: HTTP Methods Usage": adr/011-http-methods-usage.md
+      - "ADR-012: HTTP Status Codes": adr/012-http-status-codes.md
+      - "ADR-013: Hypermedia and Links": adr/013-hypermedia-and-links.md
+      - "ADR-014: JSON Payload Standards": adr/014-json-payload-standards.md
+      - "ADR-015: API Meta Information": adr/015-api-meta-information.md
+      - "ADR-016: Pagination": adr/016-pagination.md
+      - "ADR-017: API Performance Optimization": adr/017-api-performance-optimization.md
+      - "ADR-018: API Security and Authorization": adr/018-api-security-and-authorization.md
+      - "ADR-019: URL Design and Resource Naming": adr/019-url-design-and-resource-naming.md
+    - "Django":
+      - "ADR-020: Django vs FastAPI": adr/020-django-vs-fastapi.md
+      - "ADR-021: Django API First OpenAPI": adr/021-django-api-first-openapi.md
+      - "ADR-022: Django HTTP Header Standards": adr/022-django-http-header-standards.md
+      - "ADR-023: Django API Deprecation and Sunset": adr/023-django-api-deprecation-sunset.md
+      - "ADR-024: Django API Performance Optimization": adr/024-django-api-performance-optimization.md
+      - "ADR-025: Django Pagination": adr/025-django-pagination.md
 
 plugins:
   - search

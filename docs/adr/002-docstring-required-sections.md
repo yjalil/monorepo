@@ -159,4 +159,3 @@ rules:
 
 ## References
 - [Google Python Style Guide 3.8: Comments and Docstrings](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings)
-- /mnt/project/documenting-code.md
