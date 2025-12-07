@@ -23,7 +23,8 @@
         "ms-python.vscode-pylance",
         "charliermarsh.ruff",
         "tamasfe.even-better-toml",
-        "hverlin.mise-vscode"
+        "hverlin.mise-vscode",
+        "dbtLabsInc.dbt"
       ],
       "settings": {
         "python.defaultInterpreterPath": "/workspace/monorepo/.venv/bin/python",

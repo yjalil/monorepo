@@ -23,7 +23,8 @@ dependencies = [
     "click-prompt",
     "semgrep",
     "mkdocs",
-    "mkdocs-material"
+    "mkdocs-material",
+    "feedparser",
 ]
 
 [tool.commitizen]

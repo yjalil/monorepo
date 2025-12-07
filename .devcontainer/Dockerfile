@@ -13,11 +13,17 @@ RUN (type -p wget >/dev/null || (apt-get update && apt-get install wget fzf xcli
 	&& apt-get update \
 	&& apt-get install gh -y
 
-	
+# Install dbt fusion
+RUN curl -fsSL https://public.cdn.getdbt.com/fs/install/install.sh | bash -s -- --update
+
+
+
 USER vscode
+
     
 # Install mise
 RUN curl https://mise.run | sh && /home/vscode/.local/bin/mise self-update -y
+
 
 # Create cache folders
 RUN mkdir -p /home/vscode/.vscode-server/extensions \

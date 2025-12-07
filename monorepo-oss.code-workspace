@@ -1,0 +1,88 @@
+{
+  "folders": [
+    {
+      "name": "📦 Root Config",
+      "path": "."
+    },
+    {
+      "name": "checkov",
+      "path": "oss/checkov"
+    },
+    {
+      "name": "click",
+      "path": "oss/click"
+    },
+    {
+      "name": "click-prompt",
+      "path": "oss/click-prompt"
+    },
+    {
+      "name": "cz-cli",
+      "path": "oss/cz-cli"
+    },
+    {
+      "name": "datalab",
+      "path": "oss/datalab"
+    },
+    {
+      "name": "loguru",
+      "path": "oss/loguru"
+    },
+    {
+      "name": "mise",
+      "path": "oss/mise"
+    },
+    {
+      "name": "mypy",
+      "path": "oss/mypy"
+    },
+    {
+      "name": "pre-commit",
+      "path": "oss/pre-commit"
+    },
+    {
+      "name": "pydantic",
+      "path": "oss/pydantic"
+    },
+    {
+      "name": "pydantic-settings",
+      "path": "oss/pydantic-settings"
+    },
+    {
+      "name": "pystache",
+      "path": "oss/pystache"
+    },
+    {
+      "name": "pytest",
+      "path": "oss/pytest"
+    },
+    {
+      "name": "python-decouple",
+      "path": "oss/python-decouple"
+    },
+    {
+      "name": "ruff",
+      "path": "oss/ruff"
+    },
+    {
+      "name": "uv",
+      "path": "oss/uv"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/*.pyc": true,
+      "**/.ruff_cache": true,
+      "**/.pytest_cache": true,
+      "**/node_modules": true,
+      "**/.venv": true,
+      "**/venv": true,
+      "backends": true,
+      "frontends": true,
+      "repoctl": true,
+      "shared": true,
+      "templates": true
+    }
+  }
+}
