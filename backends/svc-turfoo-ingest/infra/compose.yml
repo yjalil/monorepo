@@ -1,0 +1,84 @@
+# Turfoo Ingest Service Infrastructure
+# Project-specific services: PostgreSQL, Celery Worker, Celery Beat
+
+services:
+  # PostgreSQL database for turfoo data
+  postgres:
+    image: postgres:15
+    container_name: turfoo-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - monorepo_net
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Celery worker for background tasks
+  celery-worker:
+    container_name: turfoo-celery-worker
+    image: turfoo-celery-worker:latest
+    build:
+      context: ../../../
+      dockerfile: backends/svc-turfoo-ingest/infra/Dockerfile
+    command: celery -A turfoo.celery_app worker --loglevel=info
+    volumes:
+      - ../turfoo:/app/turfoo
+    env_file: .env
+    networks:
+      - monorepo_net
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Celery beat scheduler for periodic tasks
+  celery-beat:
+    container_name: turfoo-celery-beat
+    image: turfoo-celery-beat:latest
+    build:
+      context: ../../../
+      dockerfile: backends/svc-turfoo-ingest/infra/Dockerfile
+    command: celery -A turfoo.celery_app beat --loglevel=info
+    volumes:
+      - ../turfoo:/app/turfoo
+    env_file: .env
+    networks:
+      - monorepo_net
+    restart: unless-stopped
+    depends_on:
+      - celery-worker
+    # Override healthcheck for celery beat (beat doesn't support inspect ping)
+    # Check if celery beat schedule file exists (created when beat starts)
+    healthcheck:
+      test: ["CMD-SHELL", "test -f celerybeat-schedule || exit 1"]
+      interval: 30s
+      timeout: 10s
+      start_period: 5s
+      retries: 3
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  monorepo_net:
+    name: monorepo_net
+    external: true

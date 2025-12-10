@@ -1,0 +1,25 @@
+[project]
+name = "svc-turfoo-ingest"
+version = "0.1.0"
+description = "Turfoo data ingestion service"
+authors = [
+    { name = "Your Name", email = "jalil.yahy@gmail.com" }
+]
+dependencies = [
+    "requests",
+    "httpx",
+    "feedparser",
+    "pydantic",
+    "pydantic_settings",
+    "redis",
+    "boto3",
+    "celery[redis]>=5.3.0",
+    "loguru>=0.7.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["turfoo"]
