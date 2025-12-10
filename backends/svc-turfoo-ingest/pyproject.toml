@@ -6,6 +6,7 @@ authors = [
     { name = "Your Name", email = "jalil.yahy@gmail.com" }
 ]
 dependencies = [
+    "monorepo",
     "requests",
     "httpx",
     "feedparser",
@@ -16,6 +17,8 @@ dependencies = [
     "celery[redis]>=5.3.0",
     "loguru>=0.7.0",
 ]
+[tool.uv.sources]
+monorepo = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]

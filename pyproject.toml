@@ -21,7 +21,7 @@ dependencies = [
 
 [tool.uv.workspace]
 members = ["repoctl",
-            "backends/py_ingest_turfoo"
+            "backends/svc-turfoo-ingest",
         ]
 
 [tool.commitizen]

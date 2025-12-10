@@ -9,6 +9,7 @@ uv = "latest"
 [env]
 _.file = ".env"
 UV_ENV_FILE = ".env"
+UV_PROJECT_ENVIRONMENT = ".venv"
 
 [hooks]
 enter = """

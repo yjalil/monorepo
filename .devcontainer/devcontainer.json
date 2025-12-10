@@ -45,56 +45,30 @@
       }
     }
   },
-  
-  "forwardPorts": [3000, 3333, 5432, 5540, 5555, 6379, 8000, 8888, 9000, 9001],
-  "portsAttributes": {
-    "3000": {
-      "label": "Frontend",
-      "onAutoForward": "ignore"
-    },
-    "3333":{
-      "label": "Dagster",
-      "onAutoForward": "ignore"
-    },
-    "5432":{
-      "label": "Postgres",
-      "onAutoForward": "ignore"
-    },
-    "5540":{
-      "label": "Redis Insight",
-      "onAutoForward": "ignore"
-    },
-    "5555":{
-      "label": "Celery",
-      "onAutoForward": "ignore"
-    },
-    "6379":{
-      "label": "Redis",
-      "onAutoForward": "ignore"
-    },
-    "8000": {
-      "label": "Backend",
-      "onAutoForward": "ignore"
-    },
-    "8888":{
-      "label": "Docs",
-      "onAutoForward": "ignore"
-    },
-    "9000": {
-      "label": "Minio Api",
-      "onAutoForward": "ignore"
-    },
-    "9001":{
-      "label": "Minio UI",
-      "onAutoForward": "ignore"
-    }
 
+  "forwardPorts": [6379, 7000, 7888, 9000, 9001],
+
+  "portsAttributes": {
+    // ========================================
+    // GLOBAL INFRASTRUCTURE (Never Changes)
+    // ========================================
+    
+    // 6000-6999: MESSAGE BROKERS & QUEUES
+    "6379": { "label": "Redis (broker/cache)", "onAutoForward": "ignore" },
+    
+    // 7000-7999: MONITORING & OBSERVABILITY
+    "7000": { "label": "RedisInsight UI", "onAutoForward": "ignore" },
+    
+    // 9000-9999: STORAGE & OBJECT STORE
+    "9000": { "label": "MinIO API", "onAutoForward": "ignore" },
+    "9001": { "label": "MinIO Console UI", "onAutoForward": "ignore" },
+    
+    // DOCUMENTATION (Monorepo-wide)
+    "7888": { "label": "MkDocs (documentation)", "onAutoForward": "ignore" }
   },
-  
-  "initializeCommand": "echo '🚀 Starting devcontainer...'",
-  "onCreateCommand": "echo '📦 Container created'",
-  "updateContentCommand": "echo '🔄 Updating content...'",
-  "postStartCommand": "echo '✅ Container ready!'",
-  
+
+  "initializeCommand": "bash -c 'mkdir -p \"${localWorkspaceFolder}/../.cache\"/{uv,semgrep,mise} && touch \"${localWorkspaceFolder}/../.cache/.zsh_history\" && mkdir -p \"${localWorkspaceFolder}/../.keys\" && [ ! -L \"${localWorkspaceFolder}/../.keys/.ssh\" ] && ln -sf ~/.ssh \"${localWorkspaceFolder}/../.keys/.ssh\" || true && [ ! -L \"${localWorkspaceFolder}/../.keys/.gitconfig\" ] && ln -sf ~/.gitconfig \"${localWorkspaceFolder}/../.keys/.gitconfig\" || true'",
+ 
+  "postCreateCommand": "mise trust && mise install && /home/vscode/.local/share/mise/shims/uv sync --all-packages",
   "remoteUser": "vscode"
 }

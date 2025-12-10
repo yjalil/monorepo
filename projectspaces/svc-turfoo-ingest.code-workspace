@@ -2,11 +2,7 @@
   "folders": [
     {
       "name": "📦 Turfoo Service",
-      "path": "../backends/py_ingest_turfoo"
-    },
-    {
-      "name": "🚀 Turfoo Infrastructure",
-      "path": "../backends/svc-turfoo-ingest/infra"
+      "path": "../backends/svc-turfoo-ingest"
     },
     {
       "name": "🌐 Global Infrastructure",
@@ -23,7 +19,20 @@
   ],
   
   "settings": {
-    "files.exclude": {
+    "python.defaultInterpreterPath": "${workspaceFolder:📦 Turfoo Service}/.venv/bin/python",
+    "remote.portsAttributes": {
+      // Project-specific infrastructure
+      "5432": { "label": "PostgreSQL: svc-turfoo-ingest", "onAutoForward": "ignore" },
+      "8000": { "label": "API: svc-turfoo-ingest", "onAutoForward": "ignore" },
+      "7001": { "label": "Celery Flower: svc-turfoo-ingest", "onAutoForward": "ignore" }
+    },
+    
+    
+    "python.analysis.extraPaths": [
+      "${workspaceFolder:📦 Turfoo Service}",
+      "${workspaceFolder:🛠️ Repoctl}"
+    ],
+     "files.exclude": {
       "**/__pycache__": true,
       "**/*.pyc": true,
       "**/.ruff_cache": true,
@@ -31,7 +40,7 @@
       "**/node_modules": true,
       "**/.venv": true,
       "**/venv": true,
-      "oss": true,
-      }
+      "oss": true
+    }
   }
 }
