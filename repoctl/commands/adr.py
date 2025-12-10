@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-"""ADR enforcement proof of concept"""
+"""ADR enforcement commands."""
 
 import re
 import subprocess
@@ -10,11 +9,11 @@ import yaml
 
 
 @click.group()
-def cli():
-    """ADR enforcement tooling"""
+def adr():
+    """ADR (Architecture Decision Records) management and enforcement."""
 
 
-@cli.command()
+@adr.command()
 @click.option("--adr-dir", default="docs/adr", help="ADR directory")
 @click.option("--output", default=".semgrep/adr-rules.yml", help="Output semgrep config")
 def extract(adr_dir, output):
@@ -61,7 +60,7 @@ def extract(adr_dir, output):
     click.echo(f"\n✓ Wrote {len(all_rules['rules'])} rules to {output}")
 
 
-@cli.command()
+@adr.command()
 @click.option("--target", default=".", help="Directory to scan")
 @click.option("--config", default=".semgrep/adr-rules.yml", help="Semgrep config file")
 def check(target, config):
@@ -85,11 +84,11 @@ def check(target, config):
     return result.returncode
 
 
-@cli.command()
+@adr.command()
 @click.option("--adr-dir", default="docs/adr", help="ADR directory")
 @click.option("--target", default=".", help="Directory to scan")
 def enforce(adr_dir, target):
-    """Extract rules and check code"""
+    """Extract rules and check code in one step."""
     ctx = click.get_current_context()
 
     # Extract
@@ -98,7 +97,3 @@ def enforce(adr_dir, target):
     # Check
     exit_code = ctx.invoke(check, target=target)
     ctx.exit(exit_code or 0)
-
-
-if __name__ == "__main__":
-    cli()

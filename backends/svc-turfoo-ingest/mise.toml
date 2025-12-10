@@ -1,0 +1,29 @@
+[settings]
+experimental = true
+python.uv_venv_auto = true
+
+[tools]
+python = "{{ get_env(name='PYTHON_VERSION', default='3.12') }}"
+uv = "latest"
+
+[env]
+_.file = ".env"
+UV_ENV_FILE = ".env"
+
+[hooks]
+enter = """
+if [ ! -f .env ]; then
+  echo ""
+  echo "⚠️  WARNING: .env file not found"
+  echo "📋 Copy .env.example to .env and configure:"
+  echo "   cp .env.example .env"
+  echo ""
+else
+  echo "✅ .env loaded"
+fi
+"""
+
+[tasks.install]
+description = "Install dependencies"
+alias = "i"
+run = "uv sync"

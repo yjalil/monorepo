@@ -1,0 +1,8 @@
+[project]
+name = "repoctl"
+version = "0.1.0"
+dependencies = [
+    "click",
+    "click-prompt",
+    "pathlib"
+]

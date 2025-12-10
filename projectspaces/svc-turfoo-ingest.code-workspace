@@ -1,0 +1,37 @@
+{
+  "folders": [
+    {
+      "name": "📦 Turfoo Service",
+      "path": "../backends/py_ingest_turfoo"
+    },
+    {
+      "name": "🚀 Turfoo Infrastructure",
+      "path": "../backends/svc-turfoo-ingest/infra"
+    },
+    {
+      "name": "🌐 Global Infrastructure",
+      "path": "../infra"
+    },
+    {
+      "name": "🛠️ Repoctl",
+      "path": "../repoctl"
+    },
+    {
+      "name": "📝 Docs",
+      "path": "../docs"
+    }
+  ],
+  
+  "settings": {
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/*.pyc": true,
+      "**/.ruff_cache": true,
+      "**/.pytest_cache": true,
+      "**/node_modules": true,
+      "**/.venv": true,
+      "**/venv": true,
+      "oss": true,
+      }
+  }
+}

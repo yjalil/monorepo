@@ -1,0 +1,90 @@
+# Project-Specific Infrastructure Template
+#
+# This file should be copied to your project directory (e.g., backends/your_project/infra/)
+# and customized for your project's needs.
+#
+# This template includes:
+# - PostgreSQL database
+# - Celery worker and beat scheduler
+#
+# Usage:
+#   1. Copy this file to your project: backends/YOUR_PROJECT/infra/compose.yml
+#   2. Copy .env.template to .env and customize
+#   3. Update PROJECT_NAME in .env
+#   4. Run: docker compose up -d
+#
+# The services will automatically connect to global Redis and MinIO instances.
+
+services:
+  # Project-specific PostgreSQL database
+  postgres:
+    image: postgres:15
+    container_name: ${PROJECT_NAME}-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - monorepo_net
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Celery worker for background tasks
+  celery-worker:
+    container_name: ${PROJECT_NAME}-celery-worker
+    image: ${PROJECT_NAME}-celery-worker:latest
+    build:
+      context: ../../../  # monorepo root
+      dockerfile: backends/${PROJECT_NAME}/infra/Dockerfile
+    command: celery -A ${CELERY_APP} worker --loglevel=info --autoreload
+    volumes:
+      - ../../../backends/${PROJECT_NAME}:/app
+    env_file: .env
+    networks:
+      - monorepo_net
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Celery beat scheduler for periodic tasks
+  celery-beat:
+    container_name: ${PROJECT_NAME}-celery-beat
+    image: ${PROJECT_NAME}-celery-beat:latest
+    build:
+      context: ../../../  # monorepo root
+      dockerfile: backends/${PROJECT_NAME}/infra/Dockerfile
+    command: celery -A ${CELERY_APP} beat --loglevel=info
+    volumes:
+      - ../../../backends/${PROJECT_NAME}:/app
+    env_file: .env
+    networks:
+      - monorepo_net
+    restart: unless-stopped
+    depends_on:
+      - celery-worker
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  monorepo_net:
+    name: monorepo_net
+    external: true

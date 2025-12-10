@@ -141,3 +141,411 @@ rules:
   severity: ERROR
   languages:
   - python
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#238
+  description: Date/time properties must use standard formats
+  message: Use 'date', 'date-time', 'time', 'duration', or 'period' format for temporal
+    data
+  given: $.paths..*.responses..*.content..*.schema..properties[?(@.type == 'string'
+    && (@.description =~ /date|time|timestamp|duration|period/i))]
+  severity: error
+  then:
+    field: format
+    function: enumeration
+    functionOptions:
+      values:
+      - date
+      - date-time
+      - time
+      - duration
+      - period
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#171
+  description: Number/integer types must specify format
+  message: 'Number types must have format: int32, int64, bigint, float, double, or
+    decimal'
+  given: $.paths..*.responses..*.content..*.schema..properties[?(@.type == 'number'
+    || @.type == 'integer')]
+  severity: error
+  then:
+    field: format
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#187
+  description: Deprecated elements must have description with migration guidance
+  message: Deprecated element must include sunset date and migration path in description
+  given: $..deprecated[?(@property == 'deprecated' && @ == true)]^
+  severity: error
+  then:
+    field: description
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#189
+  description: Deprecated operations should include Deprecation header
+  message: Deprecated operations should include Deprecation header in responses
+  given: $.paths[*][*][?(@.deprecated == true)]
+  severity: warn
+  then:
+    field: responses.*.headers.Deprecation
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#189
+  description: Deprecated operations should include Sunset header
+  message: Deprecated operations should include Sunset header in responses
+  given: $.paths[*][*][?(@.deprecated == true)]
+  severity: warn
+  then:
+    field: responses.*.headers.Sunset
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#101
+  description: API specifications must use OpenAPI format
+  message: API must be defined using OpenAPI specification
+  given: $
+  severity: error
+  then:
+    field: openapi
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#101
+  description: Prefer OpenAPI 3.1 for new APIs
+  message: Use OpenAPI 3.1.x for new API specifications
+  given: $.openapi
+  severity: warn
+  then:
+    function: pattern
+    functionOptions:
+      match: ^3\.1\.
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#234
+  description: Avoid non-durable remote references
+  message: Use only durable, immutable remote references or make specification self-contained
+  given: $..$ref
+  severity: error
+  then:
+    function: pattern
+    functionOptions:
+      notMatch: ^https?://(?!opensource\.zalando\.com/restful-api-guidelines/).*
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#102
+  description: API should include external documentation link
+  message: Provide link to API user manual in externalDocs
+  given: $
+  severity: warn
+  then:
+    field: externalDocs.url
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#132
+  description: Header names must use kebab-case with uppercase words
+  message: Use kebab-case with uppercase separate words for header names (e.g., Content-Type,
+    X-Flow-ID)
+  given: $.paths..parameters[?(@.in == 'header')].name
+  severity: error
+  then:
+    function: pattern
+    functionOptions:
+      match: ^([A-Z][a-z0-9]*-)*[A-Z][a-z0-9]*$
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#180
+  description: Prefer Location over Content-Location
+  message: Use Location header instead of Content-Location for resource location
+  given: $.paths..responses..headers
+  severity: warn
+  then:
+    field: Content-Location
+    function: falsy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#183
+  description: Avoid non-standard proprietary headers
+  message: Avoid proprietary headers. Use only specified X-Flow-ID, X-Tenant-ID, etc.
+  given: $.paths..parameters[?(@.in == 'header' && @.name =~ /^X-/)].name
+  severity: warn
+  then:
+    function: enumeration
+    functionOptions:
+      values:
+      - X-Flow-ID
+      - X-Tenant-ID
+      - X-Sales-Channel
+      - X-Frontend-Type
+      - X-Device-Type
+      - X-Device-OS
+      - X-Mobile-Advertising-Id
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#233
+  description: APIs must support X-Flow-ID header
+  message: RESTful API endpoints must support X-Flow-ID header for request tracking
+  given: $.paths[*][*]
+  severity: error
+  then:
+    field: parameters[?(@.name == 'X-Flow-ID')]
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#148
+  description: GET must not have request body
+  message: GET requests must not define requestBody
+  given: $.paths[*].get
+  severity: error
+  then:
+    field: requestBody
+    function: falsy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#148
+  description: POST creating resources should return 201
+  message: POST operations should return 201 Created with Location header
+  given: $.paths[*].post.responses
+  severity: warn
+  then:
+    field: '201'
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#148
+  description: POST creating resources must include Location header
+  message: 201 responses must include Location header
+  given: $.paths[*].post.responses.201
+  severity: error
+  then:
+    field: headers.Location
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#154
+  description: Collection parameters must define style and explode
+  message: Array parameters must explicitly set style and explode properties
+  given: $.paths..parameters[?(@.schema.type == 'array')]
+  severity: error
+  then:
+  - field: style
+    function: truthy
+  - field: explode
+    function: defined
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#243
+  description: Must use official HTTP status codes
+  message: Only use official HTTP status codes defined in RFC 9110
+  given: $.paths[*][*].responses.*~
+  severity: error
+  then:
+    function: pattern
+    functionOptions:
+      match: ^(1[0-9]{2}|2[0-9]{2}|3[0-9]{2}|4[0-9]{2}|5[0-9]{2}|default)$
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#151
+  description: Must define success and error responses
+  message: All operations must define success responses and relevant error responses
+  given: $.paths[*][*]
+  severity: error
+  then:
+    field: responses
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#176
+  description: Error responses should support Problem JSON
+  message: 4xx and 5xx responses should include application/problem+json content type
+  given: $.paths[*][*].responses[?(@property >= 400)]
+  severity: warn
+  then:
+    field: content.application/problem+json
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#220
+  description: Use most specific HTTP status code
+  message: Use the most specific appropriate status code (e.g., 409 not 400 for conflicts)
+  given: $.paths[*][*].responses
+  severity: info
+  then:
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#152
+  description: Batch operations must return 207
+  message: Batch/bulk operations must return 207 Multi-Status
+  given: $.paths[*].post[?(@.requestBody..type == 'array')].responses
+  severity: warn
+  then:
+    field: '207'
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#164
+  description: Link objects must have href property
+  message: Hypertext control objects must contain 'href' property with absolute URI
+  given: $..properties[?(@property =~ /_link$|_url$|^href$|^self$|^next$|^prev$|^first$|^last$/)]
+  severity: error
+  then:
+    field: type
+    function: pattern
+    functionOptions:
+      match: ^(string|object)$
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#217
+  description: URIs must be absolute
+  message: All resource links must use full, absolute URIs
+  given: $..properties.href
+  severity: error
+  then:
+    field: format
+    function: pattern
+    functionOptions:
+      match: ^uri$
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#166
+  description: Do not use Link headers with JSON
+  message: Link headers (RFC 8288) must not be used with JSON media types
+  given: $.paths[*][*].responses[*].headers
+  severity: error
+  then:
+    field: Link
+    function: falsy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#118
+  description: Property names must be snake_case
+  message: Use snake_case for property names (e.g., user_name not userName)
+  given: $..properties.*~
+  severity: error
+  then:
+    function: pattern
+    functionOptions:
+      match: ^[a-z_][a-z_0-9]*$
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#240
+  description: Enum values must be UPPER_SNAKE_CASE
+  message: Use UPPER_SNAKE_CASE for enum values (e.g., PAYMENT_PENDING)
+  given: $..enum[*]
+  severity: error
+  then:
+    function: pattern
+    functionOptions:
+      match: ^[A-Z][A-Z0-9_]*$
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#235
+  description: Date/time properties must indicate type in name
+  message: Date/time property names should contain 'date', 'time', 'timestamp' or
+    end with '_at'
+  given: $..properties[?(@.format == 'date' || @.format == 'date-time')]~
+  severity: warn
+  then:
+    function: pattern
+    functionOptions:
+      match: (date|time|day|timestamp|_at)$
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#122
+  description: Booleans must not be nullable
+  message: Boolean properties must not be nullable - use enum if third state needed
+  given: $..properties[?(@.type == 'boolean')]
+  severity: error
+  then:
+    field: nullable
+    function: falsy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#120
+  description: Array property names should be plural
+  message: Array property names should be pluralized
+  given: $..properties[?(@.type == 'array')]~
+  severity: warn
+  then:
+    function: pattern
+    functionOptions:
+      match: s$
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#174
+  description: Use standard money object
+  message: Money should reference standard schema
+  given: $..properties[?(@property =~ /(price|amount|cost|total)$/)]
+  severity: info
+  then:
+    field: $ref
+    function: pattern
+    functionOptions:
+      match: money.*yaml
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#218
+  description: Must contain API title
+  message: API specification must include info/title
+  given: $.info
+  severity: error
+  then:
+    field: title
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#218
+  description: Must contain API version
+  message: API specification must include info/version
+  given: $.info
+  severity: error
+  then:
+    field: version
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#116
+  description: Version must follow semantic versioning
+  message: 'Use semantic versioning format: MAJOR.MINOR.PATCH'
+  given: $.info.version
+  severity: error
+  then:
+    function: pattern
+    functionOptions:
+      match: ^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#218
+  description: Must contain API description
+  message: API specification must include info/description
+  given: $.info
+  severity: error
+  then:
+    field: description
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#218
+  description: Must contain contact information
+  message: API specification must include info/contact with name, url, and email
+  given: $.info.contact
+  severity: error
+  then:
+  - field: name
+    function: truthy
+  - field: url
+    function: truthy
+  - field: email
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#215
+  description: Must provide API identifier
+  message: API specification must include info/x-api-id
+  given: $.info
+  severity: error
+  then:
+    field: x-api-id
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#215
+  description: API identifier must match pattern
+  message: 'x-api-id must match pattern: ^[a-z0-9][a-z0-9-:.]{6,62}[a-z0-9]$'
+  given: $.info.x-api-id
+  severity: error
+  then:
+    function: pattern
+    functionOptions:
+      match: ^[a-z0-9][a-z0-9-:.]{6,62}[a-z0-9]$
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#219
+  description: Must provide API audience
+  message: API specification must include info/x-audience
+  given: $.info
+  severity: error
+  then:
+    field: x-audience
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#219
+  description: API audience must be valid value
+  message: 'x-audience must be one of: component-internal, business-unit-internal,
+    company-internal, external-partner, external-public'
+  given: $.info.x-audience
+  severity: error
+  then:
+    function: enumeration
+    functionOptions:
+      values:
+      - component-internal
+      - business-unit-internal
+      - company-internal
+      - external-partner
+      - external-public
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#159
+  description: Collections should support pagination
+  message: Collection responses should include pagination links (next, prev, self)
+  given: $.paths[*].get.responses.200.content.application/json.schema.properties
+  severity: warn
+  then:
+    field: items
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#248
+  description: Pagination responses should include navigation links
+  message: Paginated responses should include self, first, prev, next, last links
+  given: $.paths[*].get.responses.200.content.application/json.schema.properties[?(@property
+    == 'items')]^
+  severity: warn
+  then:
+  - field: self
+    function: truthy
+  - field: next
+    function: truthy
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#161
+  description: Pagination links should be full URIs
+  message: 'Pagination links must use format: uri'
+  given: $.paths[*].get.responses.200.content.application/json.schema.properties[?(@property
+    =~ /(self|first|prev|next|last)/)]
+  severity: error
+  then:
+    field: format
+    function: pattern
+    functionOptions:
+      match: ^uri$
+- documentationUrl: https://opensource.zalando.com/restful-api-guidelines/#254
+  description: Avoid total count in pagination
+  message: Avoid including 'total' or 'count' in pagination responses - use Prefer
+    header if needed
+  given: $.paths[*].get.responses.200.content.application/json.schema.properties
+  severity: warn
+  then:
+    field: total
+    function: falsy

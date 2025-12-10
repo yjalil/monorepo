@@ -8,24 +8,21 @@ description = "Repo dedicated to general practice and docs"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "click",
-    "python-decouple",
-    "pystache",
-    "pydantic-settings",
     "pytest",
     "mypy",
     "ruff",
     "checkov",
     "commitizen",
     "pre-commit",
-    "loguru",
-    "python-slugify",
-    "click-prompt",
     "semgrep",
     "mkdocs",
-    "mkdocs-material",
-    "feedparser",
+    "mkdocs-material"
 ]
+
+[tool.uv.workspace]
+members = ["repoctl",
+            "backends/py_ingest_turfoo"
+        ]
 
 [tool.commitizen]
 name = "cz_conventional_commits"

@@ -4,6 +4,12 @@
     "dockerfile": "Dockerfile",
     "context": "."
   },
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": false
+    }
+    
+  },
   
   "mounts": [
     "type=bind,source=${localWorkspaceFolder}/../.cache/vscode-extensions,target=/home/vscode/.vscode-server/extensions",
@@ -24,7 +30,8 @@
         "charliermarsh.ruff",
         "tamasfe.even-better-toml",
         "hverlin.mise-vscode",
-        "dbtLabsInc.dbt"
+        "dbtLabsInc.dbt",
+        "ms-azuretools.vscode-containers"
       ],
       "settings": {
         "python.defaultInterpreterPath": "/workspace/monorepo/.venv/bin/python",
@@ -39,42 +46,46 @@
     }
   },
   
-  "forwardPorts": [8000, 3000, 9000, 6379, 5432, 5555, 3333, 9001, 8888],
+  "forwardPorts": [3000, 3333, 5432, 5540, 5555, 6379, 8000, 8888, 9000, 9001],
   "portsAttributes": {
-    "8000": {
-      "label": "Backend",
-      "onAutoForward": "ignore"
-    },
     "3000": {
       "label": "Frontend",
-      "onAutoForward": "ignore"
-    },
-    "9000": {
-      "label": "Docs",
-      "onAutoForward": "ignore"
-    },
-    "6379":{
-      "label": "Redis",
-      "onAutoForward": "ignore"
-    },
-    "5432":{
-      "label": "Postgres",
-      "onAutoForward": "ignore"
-    },
-    "5555":{
-      "label": "Celery",
       "onAutoForward": "ignore"
     },
     "3333":{
       "label": "Dagster",
       "onAutoForward": "ignore"
     },
-    "9001":{
-      "label": "Minio",
+    "5432":{
+      "label": "Postgres",
+      "onAutoForward": "ignore"
+    },
+    "5540":{
+      "label": "Redis Insight",
+      "onAutoForward": "ignore"
+    },
+    "5555":{
+      "label": "Celery",
+      "onAutoForward": "ignore"
+    },
+    "6379":{
+      "label": "Redis",
+      "onAutoForward": "ignore"
+    },
+    "8000": {
+      "label": "Backend",
       "onAutoForward": "ignore"
     },
     "8888":{
-      "label": "Html",
+      "label": "Docs",
+      "onAutoForward": "ignore"
+    },
+    "9000": {
+      "label": "Minio Api",
+      "onAutoForward": "ignore"
+    },
+    "9001":{
+      "label": "Minio UI",
       "onAutoForward": "ignore"
     }
 

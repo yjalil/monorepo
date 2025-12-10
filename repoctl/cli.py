@@ -3,7 +3,8 @@
 
 import click
 
-from repoctl.commands.add.main import add_group
+from repoctl.commands.adr import adr
+from repoctl.commands.infra import infra
 
 
 @click.group()
@@ -11,7 +12,8 @@ def cli() -> None:
     """Repoctl - Repository control CLI."""
 
 
-cli.add_command(add_group)
+cli.add_command(adr)
+cli.add_command(infra)
 
 
 if __name__ == "__main__":
